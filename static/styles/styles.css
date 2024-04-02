@@ -1,0 +1,197 @@
+:root {
+  /* TODO: make this all parametric */
+  --dark-back: burlywood;
+  --light-back: bisque;
+  --mid-accent: chocolate;
+  --angry: orangered;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+
+}
+
+body {
+  margin: 0;
+  background: var(--light-back);
+}
+
+.satis-tier {
+  /* delete this rule when you get to satis tier, obviously */
+  display: none;
+}
+
+.nodisplay {
+  display: none;
+}
+
+header .forloggedin,
+header .forloggedout {
+  display: none;
+}
+
+[data-logged-in=true] header .forloggedin {
+  display: initial;
+}
+
+[data-logged-in=false] header .forloggedout {
+  display: initial;
+}
+
+
+
+
+header {
+  display: flex;
+  justify-content: space-between;
+  background: var(--mid-accent);
+}
+
+header>* {
+  padding: 1em;
+}
+
+header .logo {
+  color: black;
+  font-size: x-large;
+  font-weight: bold;
+  text-decoration: unset;
+}
+
+
+
+
+
+.days-view {
+  display: flex;
+  flex-direction: row;
+  width: calc(100vw - 4em);
+  overflow-x: auto;
+  margin: 2em;
+  background-color: var(--dark-back);
+  border: 1px solid var(--mid-accent);
+  border-radius: 4px;
+
+}
+
+
+
+
+
+.days-view .card {
+  display: flex;
+  flex-direction: column;
+  background: var(--light-back);
+  margin: 8px;
+  padding: 8px;
+  border: 1px solid var(--mid-accent);
+  border-radius: 4px;
+  min-width: 12em;
+  min-height: 30em;
+
+}
+
+.days-view>.card>*:nth-child(2) {
+
+  margin: 1em 0.12em;
+}
+
+.days-view .card .cardtop {
+  padding: 3px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: var(--dark-back);
+}
+
+.days-view .card .cardtop div.weather {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.days-view .card .cardtop div.weather img {
+  max-height: 35px;
+}
+
+
+
+
+
+.card .make-vote {
+  visibility: hidden;
+}
+
+[data-logged-in=true] .card .make-vote .forloggedin {
+  visibility: initial;
+}
+
+.days-view>.card>.vote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.days-view>.card>.vote button {
+  margin: 2px;
+  padding: 2px;
+  box-shadow: 1px 1px 0 black;
+  /* border-radius: 3px; */
+}
+
+.days-view>.card>.vote button.quiet {
+  opacity: 50%;
+}
+
+
+.days-view>.card>.vote button.loud {
+  font-weight: bold;
+  border-width: 3px;
+}
+
+
+
+
+
+.existing-votes div {
+  margin: 2px;
+  padding: 2px;
+  border-radius: 3px;
+}
+
+.existing-votes .vote-yes.vote-yes.vote-yes.vote-yes {
+  background: green;
+}
+
+.existing-votes .vote-no.vote-no.vote-no.vote-no {
+  background: red;
+}
+
+
+
+
+
+/* Scrollbar stuff.  Works on Firefox */
+.days-view {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mid-accent) var(--light-back);
+}
+
+/* Scrollbar stuff.  Works on Chrome, Edge, and Safari */
+.days-view::-webkit-scrollbar {
+  width: 12px;
+}
+
+.days-view::-webkit-scrollbar-track {
+  background: var(--light-back);
+}
+
+.days-view::-webkit-scrollbar-thumb {
+  background-color: var(--mid-accent);
+  /* border-radius: 20px; */
+  border: 3px solid var(--light-back);
+}

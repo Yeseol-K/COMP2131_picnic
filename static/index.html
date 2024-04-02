@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jicnic - Jlan your next picnic!</title>
+  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+  <script defer src="/js/api_calls.js"></script>
+  <script defer src="/js/frontend.js"></script>
+
+</head>
+
+<body>
+  <header>
+    <div class="headerleft">
+      <a href="/" class="logo">
+        <span class="logo">Jicnic</span>
+      </a>
+    </div>
+    <div class="headermiddle">
+    </div>
+
+    <div class="headerright">
+      <form class="authform">
+        <div class="forloggedin">
+          <span>Logged in!</span>
+          <button data-auth-action="logout" class="logout">Log Out</button>
+        </div>
+        <div class="forloggedout">
+          <label for="headerusername">u:</label>
+          <input id="headerusername" name="username">
+          <label for="headerpassword">p:</label>
+          <input id="headerpassword" name="password">
+          <button data-auth-action="signup" class="signup">Sign Up</button>
+          <button data-auth-action="login" class="login">Log In</button>
+        </div>
+      </form>
+    </div>
+  </header>
+  <main>
+    <section class="days-view">
+
+    </section>
+  </main>
+</body>
+
+</html>
