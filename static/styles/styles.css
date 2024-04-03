@@ -60,8 +60,24 @@ header .logo {
   text-decoration: unset;
 }
 
+/* .logoImg {
+  display: flex;
+  width: 20%;
+  height: ;
+} */
 
 
+.error-message {
+  color: rgb(167, 15, 15);
+  font-weight: bold;
+  background-color: rgb(255, 199, 87);
+  display: none;
+  padding: 0.5em;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 
 .days-view {
