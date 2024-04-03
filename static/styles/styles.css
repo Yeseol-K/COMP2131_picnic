@@ -170,9 +170,6 @@ header .logo {
 }
 
 
-
-
-
 .existing-votes div {
   margin: 2px;
   padding: 2px;
@@ -180,10 +177,12 @@ header .logo {
 }
 
 .existing-votes .vote-yes.vote-yes.vote-yes.vote-yes {
+  color: white;
   background: green;
 }
 
 .existing-votes .vote-no.vote-no.vote-no.vote-no {
+  color: white;
   background: red;
 }
 

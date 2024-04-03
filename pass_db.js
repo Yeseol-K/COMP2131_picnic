@@ -1,52 +1,47 @@
 const date_fns = require("date-fns");
 
-
-let users = {}
+let users = {};
 let votes = {};
-
-
-
-
 
 function users_init_fixed() {
   users = {
-    'fry': {
-      username: 'fry',
-      password: 'f'
+    fry: {
+      username: "fry",
+      password: "f",
     },
-    'leela': {
-      username: 'leela',
-      password: 'l'
+    leela: {
+      username: "leela",
+      password: "l",
     },
-    'bender': {
-      username: 'bender',
-      password: 'b'
+    bender: {
+      username: "bender",
+      password: "b",
     },
-    'farnsworth': {
-      username: 'farnsworth',
-      password: 'f'
+    farnsworth: {
+      username: "farnsworth",
+      password: "f",
     },
-  }
+  };
 }
 
 function vote_init_fixed() {
   votes = {
     "2024-04-01": {
-      "fry": "no",
-      "leela": "no",
-      "bender": "no",
-      "farnsworth": "yes"
+      fry: "no",
+      leela: "no",
+      bender: "no",
+      farnsworth: "yes",
     },
     "2024-04-02": {},
     "2024-04-03": {
-      "fry": "yes"
+      fry: "yes",
     },
     "2024-04-04": {
-      "fry": "yes",
-      "bender": "yes",
-      "farnsworth": "no"
+      fry: "yes",
+      bender: "yes",
+      farnsworth: "no",
     },
-  }
+  };
 }
 
 function vote_init_empty() {
@@ -58,9 +53,9 @@ function vote_init_random(num_days) {
   console.log("seeidng a bunch of false votes for", today);
   for (let i = 0; i < num_days; i++) {
     let d = date_fns.add(today, { days: i });
-    let d_str = date_fns.format(d, "yyyy-MM-dd")
+    let d_str = date_fns.format(d, "yyyy-MM-dd");
     if (votes[d_str] === undefined) {
-      votes[d_str] = {}
+      votes[d_str] = {};
     }
     for (let user in users) {
       let valence = Math.random();
@@ -71,13 +66,8 @@ function vote_init_random(num_days) {
       }
     }
   }
-  console.log(JSON.stringify(votes, null, 2))
+  console.log(JSON.stringify(votes, null, 2));
 }
-
-
-
-
-
 
 function isUsernameTaken(username) {
   return !!users[username];
@@ -88,7 +78,7 @@ function createUser(username, password) {
     users[username] = {
       username,
       password,
-    }
+    };
     return true;
   } else {
     return false;
@@ -99,25 +89,19 @@ function authenticateUser(username, password) {
   if (users[username]) {
     let user = users[username];
     if (user.password === password) {
-      return { username: user.username }
+      return { username: user.username };
     }
   } else {
     return null;
   }
 }
 
-
-
-
-
-
 function getVotesAllDays() {
-  return JSON.parse(JSON.stringify(votes))
+  return JSON.parse(JSON.stringify(votes));
 }
 
-
 function getVotesOneDay(date) {
-  return JSON.parse(JSON.stringify(votes[date]))
+  return JSON.parse(JSON.stringify(votes[date]));
 }
 
 function placeVote(username, date, vote) {
@@ -130,9 +114,6 @@ function placeVote(username, date, vote) {
     votes[date][username] = vote;
   }
 }
-
-
-
 
 module.exports = {
   // these are the actual useful methods
@@ -148,4 +129,4 @@ module.exports = {
   vote_init_empty,
   vote_init_fixed,
   vote_init_random,
-}
+};

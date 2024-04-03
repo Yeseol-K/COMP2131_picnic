@@ -79,9 +79,9 @@ router.post("/logout", (req, res) => {
 
 router.get("/votes/list", (req, res) => {
   try {
+    const votesData = db.getVotesAllDays();
     res.status(200).json({ success: true, data: votesData });
   } catch (error) {
-    console.error("Error retrieving votes:", error);
     res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 });

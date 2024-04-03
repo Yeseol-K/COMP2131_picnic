@@ -36,8 +36,15 @@ async function getSessionFromBackend() {
 }
 
 async function getVotesFromBackend() {
-  // this is a placeholder.  rewrite it completely.  (for Pass tier)
-  return { success: true, data: fake_local_votesdata };
+  try {
+    const res = await fetch("/api/v1/votes/list", {
+      method: "GET",
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching votes:", error);
+  }
 }
 
 async function setMyVote(day, vote) {
@@ -87,5 +94,53 @@ async function ajaxLogout() {
     return data;
   } catch (error) {
     console.error("Error during logout:", error);
+  }
+}
+
+async function getWeather() {
+  try {
+    const apiKey = "fba94de11390c420fdbf3a4328a4c2e9";
+    const latitude = 49.28419;
+    const longitude = -123.11532;
+    const apiUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    // current date
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split("T")[0];
+
+    // OpenWeatherMap API free version only get current date weather...???
+    const weatherData = {
+      date: formattedDate,
+      weather: data.weather[0].main,
+      temperature: data.main.temp,
+      icon: data.weather[0].icon,
+    };
+
+    console.log("weatherData", weatherData); //today weather only
+    return { success: true, data: weatherData };
+  } catch (error) {
+    return { success: false, error: "Error fetching weather data: " + error.message };
+  }
+}
+
+async function updateWeather() {
+  try {
+    const { success, data, error } = await getWeather();
+    if (success) {
+      //add weather info to html
+      const temperatureElement = document.querySelector(".temp");
+      const iconElement = document.querySelector(".weatherImg img");
+      //kevin to change to celsius
+      temperatureElement.textContent = `${Math.round(data.temperature - 273.15)}°C`;
+      iconElement.src = `http://openweathermap.org/img/wn/${data.icon}.png`;
+      iconElement.alt = "Weather Icon";
+    } else {
+      console.error("Error fetching weather data:", error);
+    }
+  } catch (error) {
+    console.error("Error displaying weather:", error);
   }
 }

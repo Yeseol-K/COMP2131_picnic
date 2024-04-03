@@ -36,50 +36,52 @@ function createOneDayCard(dayData, currentSession, weather) {
   let card = document.createElement("div");
   card.innerHTML = `
       <div class="cardtop">
-        <div class="date">
-          <div class="dow">${date.toLocaleString("en-CA", { weekday: "long" })}</div>
-          <div class="dom">${date.toLocaleString("en-CA", { month: "short", day: "numeric" })}</div>
-        </div>
-        <div class="weather">
-          <div class="temp">
-            ?
-          </div>
-          <div class="weath">
-            <img>
-          </div>
-        </div>
+      <div class="date">
+      <div class="dow">${date.toLocaleString("en-CA", { weekday: "long" })}</div>
+      <div class="dom">${date.toLocaleString("en-CA", { month: "short", day: "numeric" })}</div>
+      </div>
+      <div class="weather">
+      <div class="temp">
+      </div>
+      <div class="weatherImg">
+      <img>
+      </div>
+      </div>
       </div>
       <div class="make-vote">
-        <div class="satis-tier forloggedin">
-          Can you attend?
-          <div class="">
-            <button class="vote yes" data-vote="yes">
-              Yes ✔️
-            </button>
-            <button class="vote maybe" data-vote="">
-              ??
-            </button>
-            <button class="vote no" data-vote="no">
+      <div class="satis-tier forloggedin">
+      Can you attend?
+      <div class="">
+      <button class="vote yes" data-vote="yes">
+      Yes ✔️
+      </button>
+      <button class="vote maybe" data-vote="">
+      ??
+      </button>
+      <button class="vote no" data-vote="no">
               No ❌
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="existing-votes">
-      </div>
-    `;
+              </button>
+              </div>
+              </div>
+              </div>
+              <div class="existing-votes">
+              </div>
+              `;
   card.classList.add("card");
-  card.dataset.date = dayData.date;
+  const day = dayData.date;
+  card.dataset.date = day;
 
-  if (weather) {
-    // you need to figure this part out yourself
+  //해당 날에 맞는 날씨 가져오기 근데 api는 현재 날씨만 보여줌 뭐지????
+  if (weather && weather[day]) {
+    let temp = weather[day].temp;
+    let icon = weather[day].icon;
+    updateWeather(day, temp, icon);
   }
-
   let existingVotesDiv = card.querySelector(".existing-votes");
   for (let [voter, vote] of Object.entries(dayData.votes)) {
     existingVotesDiv.append(createExistingVote(voter, vote));
   }
-
+  updateWeather(weather); //update the weather info to card.
   return card;
 }
 
@@ -125,14 +127,18 @@ class FrontendState {
   }
 
   async refreshWeatherState(updateView = true) {
-    let { success, data, error } = await getWeather();
-    if (success) {
-      this.weatherForecasts = data;
-    } else {
-      showError(error);
-    }
-    if (updateView) {
-      this.updateView();
+    try {
+      const { success, data, error } = await getWeather();
+      if (success) {
+        this.weatherForecasts = data.days; // 날씨 정보를 저장
+      } else {
+        showError(error);
+      }
+      if (updateView) {
+        this.updateView();
+      }
+    } catch (error) {
+      showError("Error refreshing weather state: " + error.message);
     }
   }
 
@@ -154,7 +160,6 @@ class FrontendState {
     if (loggedInSpan) {
       loggedInSpan.innerText = this.currentSession ? `Logged in as ${this.currentSession.username.username}` : "";
     }
-    // 3. render the days
     updateVotableDays(this.daysWithVotes, this.currentSession, this.weatherForecasts);
   }
 }
@@ -185,10 +190,8 @@ async function handleAuthEvent(event) {
       await fes.refreshSessionState();
       usernameInput.value = passwordInput.value = "";
     } else if (authResult) {
-      // yo this is crap and if you want to be better than me, replace it.
       showError(authResult.error);
     } else {
-      // yo this is crap and if you want to be better than me, replace it.
       showError("unknown network error");
     }
   }
