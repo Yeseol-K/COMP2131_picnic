@@ -4,7 +4,7 @@ const cookieSession = require("cookie-session");
 
 const db = require("./pass_db.js");
 db.users_init_fixed();
-db.vote_init_random(7); // you COULD change this, but you could also leave it alone?
+db.vote_init_random(5);
 
 const app = express();
 

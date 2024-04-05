@@ -102,25 +102,28 @@ async function getWeather() {
     const apiKey = "fba94de11390c420fdbf3a4328a4c2e9";
     const latitude = 49.28419;
     const longitude = -123.11532;
-    const apiUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-
+    const apiUrl = `http://api.openweathermap.org/data/2.5/forecast?id=524901&lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
     const response = await fetch(apiUrl);
     const data = await response.json();
 
-    // current date
-    const currentDate = new Date();
-    const formattedDate = currentDate.toISOString().split("T")[0];
+    const weatherByDate = {};
 
-    // OpenWeatherMap API free version only get current date weather...???
-    const weatherData = {
-      date: formattedDate,
-      weather: data.weather[0].main,
-      temperature: data.main.temp,
-      icon: data.weather[0].icon,
-    };
+    data.list.forEach((item) => {
+      const date = item.dt_txt.split(" ")[0];
+      const temperature = item.main.temp;
 
-    console.log("weatherData", weatherData); //today weather only
-    return { success: true, data: weatherData };
+      if (!(date in weatherByDate) || temperature > weatherByDate[date].temperature) {
+        weatherByDate[date] = {
+          temperature: temperature,
+          weather: item.weather[0].main,
+          icon: item.weather[0].icon,
+        };
+      }
+    });
+
+    console.log("weatherData", weatherByDate);
+
+    return { success: true, data: weatherByDate };
   } catch (error) {
     return { success: false, error: "Error fetching weather data: " + error.message };
   }
@@ -130,13 +133,21 @@ async function updateWeather() {
   try {
     const { success, data, error } = await getWeather();
     if (success) {
-      //add weather info to html
-      const temperatureElement = document.querySelector(".temp");
-      const iconElement = document.querySelector(".weatherImg img");
-      //kevin to change to celsius
-      temperatureElement.textContent = `${Math.round(data.temperature - 273.15)}°C`;
-      iconElement.src = `http://openweathermap.org/img/wn/${data.icon}.png`;
-      iconElement.alt = "Weather Icon";
+      const temperature = document.querySelectorAll(".temp");
+      const icon = document.querySelectorAll(".weatherImg img");
+
+      temperature.forEach((element, i) => {
+        const date = Object.keys(data)[i];
+        const temperatureData = data[date];
+
+        const celsiusTemperature = Math.round(temperatureData.temperature - 273.15);
+        element.textContent = `${celsiusTemperature}°C`;
+
+        const iconUrl = `http://openweathermap.org/img/wn/${temperatureData.icon}.png`;
+        const iconAlt = "Weather Icon";
+        icon[i].src = iconUrl;
+        icon[i].alt = iconAlt;
+      });
     } else {
       console.error("Error fetching weather data:", error);
     }

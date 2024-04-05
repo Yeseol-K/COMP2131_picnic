@@ -2,7 +2,7 @@
   /* TODO: make this all parametric */
   --dark-back: burlywood;
   --light-back: bisque;
-  --mid-accent: chocolate;
+  --mid-accent: rgba(255, 119, 176, 0.75);
   --angry: orangered;
 }
 
@@ -15,7 +15,9 @@
 
 body {
   margin: 0;
-  background: var(--light-back);
+  background-image: url(/img/background.jpg);
+  background-size: cover;
+  /* background: var(--light-back); */
 }
 
 .satis-tier {
@@ -41,16 +43,19 @@ header .forloggedout {
 }
 
 
-
+.headerright {
+  display: flex;
+  align-items: center;
+}
 
 header {
   display: flex;
   justify-content: space-between;
-  background: var(--mid-accent);
+  background: var(--mid-accent)
 }
 
 header>* {
-  padding: 1em;
+  padding: 0.5em;
 }
 
 header .logo {
@@ -58,25 +63,29 @@ header .logo {
   font-size: x-large;
   font-weight: bold;
   text-decoration: unset;
+  display: flex;
+  align-items: center;
 }
 
-/* .logoImg {
+.logoImg {
   display: flex;
-  width: 20%;
-  height: ;
-} */
+  width: 10%;
+  height: auto;
+}
 
+.error-box {
+  height: 0;
+  position: relative;
+  padding: 10px;
+}
 
 .error-message {
   color: rgb(167, 15, 15);
   font-weight: bold;
   background-color: rgb(255, 199, 87);
   display: none;
-  padding: 0.5em;
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 20%;
 }
 
 
@@ -87,7 +96,7 @@ header .logo {
   overflow-x: auto;
   margin: 2em;
   background-color: var(--dark-back);
-  border: 1px solid var(--mid-accent);
+  border: 3px solid var(--mid-accent);
   border-radius: 4px;
 
 }
@@ -178,12 +187,12 @@ header .logo {
 
 .existing-votes .vote-yes.vote-yes.vote-yes.vote-yes {
   color: white;
-  background: green;
+  background: rgb(39, 142, 39);
 }
 
 .existing-votes .vote-no.vote-no.vote-no.vote-no {
   color: white;
-  background: red;
+  background: rgb(255, 72, 72);
 }
 
 
