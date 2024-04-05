@@ -103,15 +103,19 @@ async function getWeather() {
     const latitude = 49.28419;
     const longitude = -123.11532;
     const apiUrl = `http://api.openweathermap.org/data/2.5/forecast?id=524901&lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+
     const response = await fetch(apiUrl);
     const data = await response.json();
 
     const weatherByDate = {};
-
+    //get all weather data
     data.list.forEach((item) => {
+      //loop by date
       const date = item.dt_txt.split(" ")[0];
+      //grab all weather in same date
       const temperature = item.main.temp;
 
+      //no weather data in day or current temp is higher than previous temp
       if (!(date in weatherByDate) || temperature > weatherByDate[date].temperature) {
         weatherByDate[date] = {
           temperature: temperature,
@@ -120,8 +124,7 @@ async function getWeather() {
         };
       }
     });
-
-    console.log("weatherData", weatherByDate);
+    // console.log("weatherData", weatherByDate);
 
     return { success: true, data: weatherByDate };
   } catch (error) {

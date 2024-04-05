@@ -71,12 +71,6 @@ function createOneDayCard(dayData, currentSession, weather) {
   const day = dayData.date;
   card.dataset.date = day;
 
-  //해당 날에 맞는 날씨 가져오기 근데 api는 현재 날씨만 보여줌 뭐지????
-  if (weather && weather[day]) {
-    let temp = weather[day].temp;
-    let icon = weather[day].icon;
-    updateWeather(day, temp, icon);
-  }
   let existingVotesDiv = card.querySelector(".existing-votes");
   for (let [voter, vote] of Object.entries(dayData.votes)) {
     existingVotesDiv.append(createExistingVote(voter, vote));

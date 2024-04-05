@@ -2,7 +2,7 @@
   /* TODO: make this all parametric */
   --dark-back: burlywood;
   --light-back: bisque;
-  --mid-accent: rgba(255, 119, 176, 0.75);
+  --mid-accent: rgba(233, 149, 173, 0.80);
   --angry: orangered;
 }
 
@@ -60,7 +60,7 @@ header>* {
 
 header .logo {
   color: black;
-  font-size: x-large;
+  font-size: xx-large;
   font-weight: bold;
   text-decoration: unset;
   display: flex;
@@ -71,12 +71,25 @@ header .logo {
   display: flex;
   width: 10%;
   height: auto;
+  margin-right: 10px;
 }
+
+.login, .signup {
+  color: white;
+  background: rgb(255, 102, 102);
+  border-radius: 20px; 
+  border: 1px solid white; 
+  padding: 5px 10px; 
+}
+
+.login:hover, .signup:hover {
+  background: #6685ff; 
+}
+
 
 .error-box {
   height: 0;
   position: relative;
-  padding: 10px;
 }
 
 .error-message {
@@ -86,6 +99,7 @@ header .logo {
   display: none;
   position: absolute;
   left: 20%;
+  margin-top: 10px;
 }
 
 
@@ -100,10 +114,6 @@ header .logo {
   border-radius: 4px;
 
 }
-
-
-
-
 
 .days-view .card {
   display: flex;
@@ -194,6 +204,7 @@ header .logo {
   color: white;
   background: rgb(255, 72, 72);
 }
+
 
 
 
