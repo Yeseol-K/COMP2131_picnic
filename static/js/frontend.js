@@ -53,13 +53,13 @@ function createOneDayCard(dayData, currentSession, weather) {
       Can you attend?
       <div class="">
       <button class="vote yes" data-vote="yes">
-      Yes ✔️
+      Yes✔️
       </button>
       <button class="vote maybe" data-vote="">
-      ??
+    🗑️
       </button>
       <button class="vote no" data-vote="no">
-              No ❌
+              No❌
               </button>
               </div>
               </div>
@@ -77,6 +77,35 @@ function createOneDayCard(dayData, currentSession, weather) {
   }
   updateWeather(weather); //update the weather info to card.
   return card;
+}
+
+async function updateWeather() {
+  try {
+    const { success, data, error } = await getWeather(); // Await the result of getWeather function
+    // console.log({ success, data, error });
+    if (success) {
+      const temperature = document.querySelectorAll(".temp");
+      const icon = document.querySelectorAll(".weatherImg img");
+
+      temperature.forEach((element, i) => {
+        const date = Object.keys(data)[i];
+        const temperatureData = data[date];
+        // console.log(date);
+
+        const celsiusTemperature = Math.round(temperatureData.temperature - 273.15);
+        element.textContent = `${celsiusTemperature}°C`;
+
+        const iconUrl = `http://openweathermap.org/img/wn/${temperatureData.icon}.png`;
+        const iconAlt = "WeatherIcon";
+        icon[i].src = iconUrl;
+        icon[i].alt = iconAlt;
+      });
+    } else {
+      console.error("Error fetching weather data:", error);
+    }
+  } catch (error) {
+    console.error("Error displaying weather:", error);
+  }
 }
 
 function updateVotableDays(daysWithVotes, currentSession, weatherForecasts) {
@@ -102,7 +131,7 @@ class FrontendState {
   }
 
   async refreshAllState(updateView = true) {
-    await Promise.all([this.refreshVotesState(false), this.refreshWeatherState(false), this.refreshSessionState(false)]);
+    await Promise.all([this.refreshVotesState(true), this.refreshWeatherState(true), this.refreshSessionState(true)]);
     if (updateView) {
       this.updateView();
     }
@@ -191,14 +220,26 @@ async function handleAuthEvent(event) {
   }
 }
 
+async function handleRefreshButton(click) {
+  try {
+    await refreshVotesRandom();
+    await refreshAllState();
+  } catch (error) {
+    console.error("Error refreshing data:", error.message);
+  }
+}
+
 const authform = document.querySelector("form.authform");
 authform.addEventListener("click", handleAuthEvent);
 authform.addEventListener("load", setLoggedIn(false));
 
+const refreshButton = document.getElementById("refreshButton");
+refreshButton.addEventListener("click", handleRefreshButton);
+
 async function handleVoteEvent(event) {
   event.preventDefault();
   let button = event.target.closest("button.vote");
-  // console.log(button)
+  console.log(button);
 
   if (button) {
     let voteVal;

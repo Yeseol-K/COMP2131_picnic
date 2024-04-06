@@ -96,65 +96,38 @@ async function ajaxLogout() {
     console.error("Error during logout:", error);
   }
 }
-
 async function getWeather() {
-  try {
-    const apiKey = "fba94de11390c420fdbf3a4328a4c2e9";
-    const latitude = 49.28419;
-    const longitude = -123.11532;
-    const apiUrl = `http://api.openweathermap.org/data/2.5/forecast?id=524901&lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-
-    const response = await fetch(apiUrl);
-    const data = await response.json();
-
-    const weatherByDate = {};
-    //get all weather data
-    data.list.forEach((item) => {
-      //loop by date
-      const date = item.dt_txt.split(" ")[0];
-      //grab all weather in same date
-      const temperature = item.main.temp;
-
-      //no weather data in day or current temp is higher than previous temp
-      if (!(date in weatherByDate) || temperature > weatherByDate[date].temperature) {
-        weatherByDate[date] = {
-          temperature: temperature,
-          weather: item.weather[0].main,
-          icon: item.weather[0].icon,
-        };
-      }
-    });
-    // console.log("weatherData", weatherByDate);
-
-    return { success: true, data: weatherByDate };
-  } catch (error) {
-    return { success: false, error: "Error fetching weather data: " + error.message };
-  }
+  const response = await fetch("/api/v1/getToken/openweathermap", {
+    method: "GET",
+  });
+  return response.json();
 }
 
-async function updateWeather() {
+async function setMyVote(day, vote) {
+  // this is a placeholder.  rewrite it completely.  (you can ignore this for Pass tier)
+  const res = await fetch("/api/v1/votes/set", {
+    method: "POST",
+    body: JSON.stringify({ day, vote }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res.json();
+}
+
+async function refreshVotesRandom() {
   try {
-    const { success, data, error } = await getWeather();
-    if (success) {
-      const temperature = document.querySelectorAll(".temp");
-      const icon = document.querySelectorAll(".weatherImg img");
+    const response = await fetch("/api/v1/votes/refresh", {
+      method: "POST",
+    });
+    const data = await response.json();
 
-      temperature.forEach((element, i) => {
-        const date = Object.keys(data)[i];
-        const temperatureData = data[date];
-
-        const celsiusTemperature = Math.round(temperatureData.temperature - 273.15);
-        element.textContent = `${celsiusTemperature}°C`;
-
-        const iconUrl = `http://openweathermap.org/img/wn/${temperatureData.icon}.png`;
-        const iconAlt = "Weather Icon";
-        icon[i].src = iconUrl;
-        icon[i].alt = iconAlt;
-      });
+    if (data.success) {
+      console.log("Votes refreshed with random values successfully.");
     } else {
-      console.error("Error fetching weather data:", error);
+      console.error("Error refreshing votes with random values:", data.error);
     }
   } catch (error) {
-    console.error("Error displaying weather:", error);
+    console.error("Error refreshing votes with random values:", error.message);
   }
 }

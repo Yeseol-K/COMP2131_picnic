@@ -1,7 +1,7 @@
 :root {
   /* TODO: make this all parametric */
-  --dark-back: burlywood;
-  --light-back: bisque;
+  --dark-back: rgba(249, 208, 190, 0.946);
+  --light-back: rgb(255, 237, 215);
   --mid-accent: rgba(233, 149, 173, 0.80);
   --angry: orangered;
 }
@@ -20,10 +20,6 @@ body {
   /* background: var(--light-back); */
 }
 
-.satis-tier {
-  /* delete this rule when you get to satis tier, obviously */
-  display: none;
-}
 
 .nodisplay {
   display: none;
@@ -67,14 +63,21 @@ header .logo {
   align-items: center;
 }
 
+#refreshButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
 .logoImg {
   display: flex;
-  width: 10%;
+  width: 50px;
   height: auto;
   margin-right: 10px;
 }
 
-.login, .signup {
+.login, .signup, .logout {
   color: white;
   background: rgb(255, 102, 102);
   border-radius: 20px; 
@@ -82,10 +85,34 @@ header .logo {
   padding: 5px 10px; 
 }
 
-.login:hover, .signup:hover {
+.login:hover, .signup:hover, .logout:hover, .maybe:hover, .yes:hover, .no:hover {
   background: #6685ff; 
 }
 
+.yes {
+  color: white;
+  background: rgb(85,158,131);
+  border-radius: 20px; 
+  border: 1px solid white; 
+  padding: 2px 5px; 
+}
+
+.maybe {
+  color: white;
+  background: rgb(90,82,85);
+  border-radius: 100px; 
+  border: 1px solid white; 
+  padding: 2px 5px; 
+}
+
+
+.no {
+  color: white;
+  background: rgb(255,139,148);
+  border-radius: 20px; 
+  border: 1px solid white; 
+  padding: 2px 5px; 
+}
 
 .error-box {
   height: 0;
