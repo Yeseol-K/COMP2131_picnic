@@ -239,7 +239,6 @@ refreshButton.addEventListener("click", handleRefreshButton);
 async function handleVoteEvent(event) {
   event.preventDefault();
   let button = event.target.closest("button.vote");
-  console.log(button);
 
   if (button) {
     let voteVal;

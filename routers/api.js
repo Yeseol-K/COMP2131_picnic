@@ -35,6 +35,7 @@ router.post("/signup", (req, res) => {
     }
 
     const newUser = db.createUser(username, password);
+    console.log = { newUser };
 
     if (!newUser) {
       throw new Error("Username is already taken");

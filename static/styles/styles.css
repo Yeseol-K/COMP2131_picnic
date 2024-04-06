@@ -180,15 +180,18 @@ header .logo {
 }
 
 
-
-
-
 .card .make-vote {
   visibility: hidden;
 }
 
+.forloggedin{
+  height: 0;
+}
+
+
 [data-logged-in=true] .card .make-vote .forloggedin {
   visibility: initial;
+  height:auto;
 }
 
 .days-view>.card>.vote {
