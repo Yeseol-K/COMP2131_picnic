@@ -48,19 +48,15 @@ async function getVotesFromBackend() {
 }
 
 async function setMyVote(day, vote) {
-  // this is a placeholder.  rewrite it completely.  (you can ignore this for Pass tier)
-  if (!fake_local_session) return false;
-  let me = fake_local_session.username;
-  let dayofvotes = fake_local_votesdata.filter((vd) => vd.date === day)[0];
-  if (!me || !dayofvotes) return false;
-  if (vote === "maybe") {
-    delete dayofvotes.votes[me];
-  } else {
-    dayofvotes.votes[me] = vote;
-  }
-  return { success: true };
+  const res = await fetch("/api/v1/votes/set", {
+    method: "POST",
+    body: JSON.stringify({ day, vote }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res.json();
 }
-
 async function ajaxSignup(username, password) {
   const response = await fetch("/api/v1/signup", {
     method: "POST",
@@ -101,18 +97,6 @@ async function getWeather() {
     method: "GET",
   });
   return response.json();
-}
-
-async function setMyVote(day, vote) {
-  // this is a placeholder.  rewrite it completely.  (you can ignore this for Pass tier)
-  const res = await fetch("/api/v1/votes/set", {
-    method: "POST",
-    body: JSON.stringify({ day, vote }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return res.json();
 }
 
 async function refreshVotesRandom() {

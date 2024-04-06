@@ -126,29 +126,22 @@ router.get("/getToken/openweathermap", async (req, res) => {
   }
 });
 
-router.post("/votes/set", async (req, res) => {
-  try {
-    const username = req.session.user.username;
-    const { day, vote } = req.body;
-
-    await db.placeVote(username, day, vote);
-    const getDayVote = await db.getVotesOneDay(day);
-    console.log(getDayVote);
-    res.status(200).json({
-      success: true,
-      TheDayVote: username,
-    });
-  } catch (error) {
-    console.error("Error setting vote:", error);
-    res.status(500).json({ success: false, error: "Error setting vote" });
-  }
+router.post("/votes/set", (req, res) => {
+  const username = req.session.user.username;
+  const { day, vote } = req.body;
+  db.placeVote(username, day, vote);
+  const getDayVote = db.getVotesOneDay(day);
+  res.status(200).json({
+    success: true,
+    TheDayVote: username,
+  });
 });
 
-router.post("/votes/refresh", (req, res) => {
+router.post("/votes/refresh", async (req, res) => {
   try {
-    db.vote_init_empty();
+    await db.vote_init_empty();
     const numDays = 5;
-    db.vote_init_random(numDays);
+    await db.vote_init_random(numDays);
     res.status(200).json({ success: true });
   } catch (error) {
     console.error("Error refreshing votes with random values:", error);

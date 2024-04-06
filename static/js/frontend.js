@@ -75,13 +75,13 @@ function createOneDayCard(dayData, currentSession, weather) {
   for (let [voter, vote] of Object.entries(dayData.votes)) {
     existingVotesDiv.append(createExistingVote(voter, vote));
   }
-  updateWeather(weather); //update the weather info to card.
+  updateWeather(weather);
   return card;
 }
 
 async function updateWeather() {
   try {
-    const { success, data, error } = await getWeather(); // Await the result of getWeather function
+    const { success, data, error } = await getWeather();
     // console.log({ success, data, error });
     if (success) {
       const temperature = document.querySelectorAll(".temp");
@@ -153,7 +153,7 @@ class FrontendState {
     try {
       const { success, data, error } = await getWeather();
       if (success) {
-        this.weatherForecasts = data.days; // 날씨 정보를 저장
+        this.weatherForecasts = data.days;
       } else {
         showError(error);
       }
