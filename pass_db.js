@@ -50,7 +50,7 @@ function vote_init_empty() {
 
 function vote_init_random(num_days) {
   let today = new Date();
-  console.log("seeidng a bunch of false votes for", today);
+  // console.log("seeidng a bunch of false votes for", today);
   for (let i = 0; i < num_days; i++) {
     let d = date_fns.add(today, { days: i });
     let d_str = date_fns.format(d, "yyyy-MM-dd");
