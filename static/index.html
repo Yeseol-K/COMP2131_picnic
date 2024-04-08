@@ -25,16 +25,18 @@
       </div>
       <div class="headermiddle"></div>
       <div class="headerright">
+        <label for="showPassword">Show PW <input type="checkbox" id="showPassword" /></label>
         <form class="authform">
           <div class="forloggedin">
             <span> Logged in!</span>
             <button data-auth-action="logout" class="logout">Log Out</button>
           </div>
           <div class="forloggedout">
-            <label for="headerusername">username:</label>
-            <input id="headerusername" name="username" />
-            <label for="headerpassword">password:</label>
-            <input type="password" id="headerpassword" name="password" />
+            <label for="headerusername">U : </label>
+            <input id="headerusername" name="username" placeholder="enter your username" />
+            <label for="headerpassword">PW : </label>
+            <input type="password" id="headerpassword" name="password" placeholder="enter your password" />
+
             <button data-auth-action="signup" class="signup">Sign Up</button>
             <button data-auth-action="login" class="login">Log In</button>
           </div>
