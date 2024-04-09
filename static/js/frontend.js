@@ -225,18 +225,18 @@ authform.addEventListener("click", handleAuthEvent);
 authform.addEventListener("load", setLoggedIn(false));
 
 //extra to practice
-const checkbox = document.getElementById("showPassword");
-const password = document.getElementById("headerpassword");
+// const checkbox = document.getElementById("showPassword");
+// const password = document.getElementById("headerpassword");
 
-checkbox.addEventListener("change", function () {
-  if (this.checked) {
-    password.type = "text";
-    console.log("Password shown");
-  } else {
-    password.type = "password";
-    console.log("Password hidden");
-  }
-});
+// checkbox.addEventListener("change", function () {
+//   if (this.checked) {
+//     password.type = "text";
+//     console.log("Password shown");
+//   } else {
+//     password.type = "password";
+//     console.log("Password hidden");
+//   }
+// });
 
 async function handleRefreshButton(click) {
   try {
