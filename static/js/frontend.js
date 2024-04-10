@@ -191,7 +191,6 @@ const fes = new FrontendState();
 fes.refreshAllState();
 
 async function handleAuthEvent(event) {
-  event.preventDefault();
   // console.log(event.currentTarget, event.target)
   let usernameInput = event.currentTarget.querySelector("#headerusername");
   let usernameValue = usernameInput.value;
@@ -199,6 +198,7 @@ async function handleAuthEvent(event) {
   let passwordValue = passwordInput.value;
   let button = event.target.closest("button");
   if (button) {
+    event.preventDefault();
     let authActionName = button?.dataset?.authAction;
     let authActionFunction = {
       signup: ajaxSignup,
@@ -225,18 +225,18 @@ authform.addEventListener("click", handleAuthEvent);
 authform.addEventListener("load", setLoggedIn(false));
 
 //extra to practice
-// const checkbox = document.getElementById("showPassword");
-// const password = document.getElementById("headerpassword");
+const checkbox = document.getElementById("showPassword");
+const password = document.getElementById("headerpassword");
 
-// checkbox.addEventListener("change", function () {
-//   if (this.checked) {
-//     password.type = "text";
-//     console.log("Password shown");
-//   } else {
-//     password.type = "password";
-//     console.log("Password hidden");
-//   }
-// });
+checkbox.addEventListener("click", function (event) {
+  if (this.checked) {
+    password.type = "text";
+    console.log("Password shown");
+  } else {
+    password.type = "password";
+    console.log("Password hidden");
+  }
+});
 
 async function handleRefreshButton(click) {
   try {
