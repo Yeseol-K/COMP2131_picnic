@@ -72,7 +72,10 @@ function createOneDayCard(dayData, currentSession, weather) {
   card.dataset.date = day;
 
   let existingVotesDiv = card.querySelector(".existing-votes");
-  for (let [voter, vote] of Object.entries(dayData.votes)) {
+  let voters = Object.keys(dayData.votes);
+  voters.sort((a, b) => a.length - b.length);
+  for (let voter of voters) {
+    let vote = dayData.votes[voter];
     existingVotesDiv.append(createExistingVote(voter, vote));
   }
   updateWeather(weather);
